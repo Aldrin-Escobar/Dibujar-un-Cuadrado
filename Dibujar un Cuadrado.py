@@ -1,130 +1,50 @@
 import tkinter as tk
-from tkinter import messagebox
 
-
-# Clase CuentaBancaria para manejar el cálculo de intereses
-class CuentaBancaria:
-    def __init__(self, saldo_inicial, tasa_interes, tiempo):
-        self.saldo_inicial = saldo_inicial
-        self.tasa_interes = tasa_interes
-        self.tiempo = tiempo
-
-    def calcular_interes(self):
-        interes = self.saldo_inicial * (self.tasa_interes / 100) * self.tiempo
-        saldo_final = self.saldo_inicial + interes
-        return interes, saldo_final
-
-
-# Clase para manejar la interfaz gráfica
-class InterfazMultifuncional:
+class AplicacionCuadrado:
     def __init__(self, root):
         self.root = root
-        self.root.title("Aplicación Multifuncional")
-
-        # Botones para seleccionar funcionalidades
-        tk.Button(root, text="Calcular Interés Bancario", command=self.mostrar_interes).grid(row=0, column=0)
-        tk.Button(root, text="Ordenar Números", command=self.mostrar_ordenar_numeros).grid(row=0, column=1)
-        tk.Button(root, text="Dibujar Cuadrado", command=self.mostrar_dibujo).grid(row=0, column=2)
-
-        # Frame para calcular intereses
-        self.interes_frame = tk.Frame(root)
-        tk.Label(self.interes_frame, text="Saldo Inicial:").grid(row=0, column=0)
-        tk.Label(self.interes_frame, text="Tasa de Interés (%):").grid(row=1, column=0)
-        tk.Label(self.interes_frame, text="Tiempo (años):").grid(row=2, column=0)
-
-        self.saldo_inicial = tk.Entry(self.interes_frame)
-        self.tasa_interes = tk.Entry(self.interes_frame)
-        self.tiempo = tk.Entry(self.interes_frame)
-
-        self.saldo_inicial.grid(row=0, column=1)
-        self.tasa_interes.grid(row=1, column=1)
-        self.tiempo.grid(row=2, column=1)
-
-        tk.Button(self.interes_frame, text="Calcular Interés", command=self.calcular_interes).grid(row=3, columnspan=2)
-
-        self.resultado_interes = tk.Label(self.interes_frame, text="Interés: ")
-        self.resultado_interes.grid(row=4, columnspan=2)
-
-        self.resultado_saldo_final = tk.Label(self.interes_frame, text="Saldo Final: ")
-        self.resultado_saldo_final.grid(row=5, columnspan=2)
-
-        # Frame para ordenar números
-        self.ordenar_frame = tk.Frame(root)
-        tk.Label(self.ordenar_frame, text="Introduce el primer número:").grid(row=0, column=0)
-        tk.Label(self.ordenar_frame, text="Introduce el segundo número:").grid(row=1, column=0)
-        tk.Label(self.ordenar_frame, text="Introduce el tercer número:").grid(row=2, column=0)
-
-        self.num1 = tk.Entry(self.ordenar_frame)
-        self.num2 = tk.Entry(self.ordenar_frame)
-        self.num3 = tk.Entry(self.ordenar_frame)
-
-        self.num1.grid(row=0, column=1)
-        self.num2.grid(row=1, column=1)
-        self.num3.grid(row=2, column=1)
-
-        tk.Button(self.ordenar_frame, text="Ordenar", command=self.ordenar_numeros).grid(row=3, columnspan=2)
-
-        self.resultado_orden = tk.Label(self.ordenar_frame, text="Números ordenados: ")
-        self.resultado_orden.grid(row=4, columnspan=2)
-
-        # Frame para dibujar un cuadrado
-        self.dibujo_frame = tk.Frame(root)
-        self.canvas = tk.Canvas(self.dibujo_frame, width=200, height=200)
-        self.canvas.grid(row=0, column=0)
-        tk.Button(self.dibujo_frame, text="Dibujar Cuadrado", command=self.dibujar_cuadrado).grid(row=1, column=0)
-
-    def mostrar_interes(self):
-        self.ordenar_frame.grid_forget()
-        self.dibujo_frame.grid_forget()
-        self.interes_frame.grid(row=1, columnspan=3)
-
-    def mostrar_ordenar_numeros(self):
-        self.interes_frame.grid_forget()
-        self.dibujo_frame.grid_forget()
-        self.ordenar_frame.grid(row=1, columnspan=3)
-
-    def mostrar_dibujo(self):
-        self.interes_frame.grid_forget()
-        self.ordenar_frame.grid_forget()
-        self.dibujo_frame.grid(row=1, columnspan=3)
-
-    def calcular_interes(self):
-        try:
-            saldo_inicial = float(self.saldo_inicial.get())
-            tasa_interes = float(self.tasa_interes.get())
-            tiempo = float(self.tiempo.get())
-
-            cuenta = CuentaBancaria(saldo_inicial, tasa_interes, tiempo)
-            interes, saldo_final = cuenta.calcular_interes()
-
-            self.resultado_interes.config(text=f"Interés: ${interes:.2f}")
-            self.resultado_saldo_final.config(text=f"Saldo Final: ${saldo_final:.2f}")
-
-        except ValueError:
-            messagebox.showerror("Error", "Por favor ingresa valores numéricos válidos.")
-
-    def ordenar_numeros(self):
-        try:
-            num1 = float(self.num1.get())
-            num2 = float(self.num2.get())
-            num3 = float(self.num3.get())
-
-            numeros = [num1, num2, num3]
-            numeros.sort()
-
-            self.resultado_orden.config(text=f"Números ordenados: {numeros}")
-
-        except ValueError:
-            messagebox.showerror("Error", "Por favor ingresa valores numéricos válidos.")
-
+        self.root.title("Dibuja un Cuadrado")
+        
+        # Etiqueta de entrada
+        self.label = tk.Label(root, text="Introduce el tamaño del cuadrado:")
+        self.label.pack(pady=10)
+        
+        # Entrada de texto
+        self.entrada = tk.Entry(root)
+        self.entrada.pack(pady=5)
+        
+        # Botón para dibujar el cuadrado
+        self.boton_dibujar = tk.Button(root, text="Dibujar Cuadrado", command=self.dibujar_cuadrado)
+        self.boton_dibujar.pack(pady=10)
+        
+        # Lienzo para dibujar el cuadrado
+        self.lienzo = tk.Canvas(root, width=300, height=300, bg="white")
+        self.lienzo.pack(pady=10)
+    
     def dibujar_cuadrado(self):
-        self.canvas.delete("all")  # Limpiar el canvas antes de dibujar
-        size = 100  # Tamaño del cuadrado
-        self.canvas.create_rectangle(50, 50, 50 + size, 50 + size, outline="black", fill="blue")
+        self.lienzo.delete("all")  # Limpia el lienzo antes de dibujar
+        
+        try:
+            tamano = int(self.entrada.get())
+            if tamano <= 0:
+                mensaje = "El tamaño debe ser un número positivo."
+            else:
+                # Calcular las coordenadas para centrar el cuadrado
+                x1 = (self.lienzo.winfo_width() - tamano) / 2
+                y1 = (self.lienzo.winfo_height() - tamano) / 2
+                x2 = x1 + tamano
+                y2 = y1 + tamano
+                
+                # Dibujar el cuadrado
+                self.lienzo.create_rectangle(x1, y1, x2, y2, outline="black", fill="lightblue")
+                mensaje = ""
+        except ValueError:
+            mensaje = "Por favor, introduce un número válido."
+        
+        if mensaje:
+            self.lienzo.create_text(self.lienzo.winfo_width() / 2, self.lienzo.winfo_height() / 2, text=mensaje, fill="red")
 
-
-# Función principal para ejecutar el programa
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = InterfazMultifuncional(root)
-    root.mainloop()
+# Crear la ventana principal
+root = tk.Tk()
+app = AplicacionCuadrado(root)
+root.mainloop()
